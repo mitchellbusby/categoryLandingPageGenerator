@@ -1,0 +1,68 @@
+<form role="form">
+	<div class="form-group input-group-lg">
+		<label for="pageTitle">Category page title</label>
+		<input type="text" class="form-control" name="pageTitle" ng-model="pageTitle">
+	</div>
+	<div ng-repeat="tile in tiles">
+		<div class="form-group">
+			<label for="nameOfTile">Name of tile</label>
+			<input type="text" name="nameOfTile" class="form-control" id="nameOfTile" ng-model="tile.title">
+		</div>
+		<div class="form-group">
+			<label for="tileImageUrl">URL of image attached to tile</label>
+			<input type="text" name="tileImageUrl" class="form-control" id="tileImageUrl" ng-model="tile.imageUrl">
+		</div>
+		<div class="form-group">
+			<label for="tileImageUrl">URL when clicked</label>
+			<input type="text" name="url" class="form-control" id="url" ng-model="tile.url"  ng-disabled="tile.hasSubtile">
+		</div>
+		<div class="input-group" style="margin: 20px 0 20px 0;"><span class="input-group-addon"><input type="checkbox" ng-model="tile.hasSubtile"></span><label for="tileHasSubtile" class="form-control" style="width:40%;">Has subtile</label></div>
+		<div class="container subtile-options-container" ng-show="tile.hasSubtile">
+			<h4>Popular Filter Tile <button class="btn btn-default" ng-click="showPopFilter = !showPopFilter">{{showPopFilter ? "Hide" : "Show"}}</button></h4>
+			<div class="container" ng-show="showPopFilter">
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label for="popularFilterTitle">Popular filter title</label>
+						<input class="form-control" type="text" id="popularFilterTitle" ng-model="tile.subTile.popularFilterTitle">
+					</div>
+					<div class="form-group col-sm-6">
+						<label for="popularFilterImageUrl">Popular filter image url</label>
+						<input class="form-control" type="text" id="popularFilterImageUrl" name="popularFilterImageUrl" ng-model="tile.subTile.popularFilterImageUrl">
+					</div>
+				</div>
+				<div class="row" ng-repeat="popularFilterOption in tile.subTile.popularFilterOptions">
+					<div class="form-group col-sm-6">
+						<label for="popularFilterOptionLabel">Label for popular filter option #{{$index+1}}</label>
+						<input class='form-control' ng-model="popularFilterOption[0]">
+					</div>
+					<div class="form-group col-sm-6">
+						<label for="popularFilterOptionUrl">URL for popular filter option #{{$index+1}}</label>
+						<input class='form-control' ng-model="popularFilterOption[1]">
+					</div>
+				</div>
+			</div>
+			<h4>Popular Brands Tile <button class="btn btn-default" ng-click="showPopBrands = !showPopBrands">{{showPopBrands ? "Hide" : "Show"}}</button></h4>
+			<div class="container" ng-show="showPopBrands">
+				<div class="row" ng-repeat="popularBrand in tile.subTile.popularBrands">
+					<div class="form-group col-sm-4">
+						<label for="brandName">Brand Name {{"for " + popularBrand.name}}</label>
+						<input class="form-control" type="text" name="brandName" ng-model="popularBrand.name">
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="brandImageUrl">Brand Image URL</label>
+						<input class="form-control" name="brandImageUrl" ng-model="popularBrand.imageUrl">
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="brandUrl">Brand URL</label>
+						<input type="text" name="brandUrl" class="form-control" ng-model="popularBrand.url">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group"><button class="btn btn-default" ng-click="removeTile(tile)">Remove this tile</button></div>
+	</div>
+	<div class="form-group">
+		<button class="btn btn-default" ng-click="addTile()">Add a subcategory tile</button>
+		<button class="btn btn-default" ng-click="next()">Update HTML</button>
+	</div>
+</form>

@@ -1,0 +1,74 @@
+<h3>{{=it.pageTitle}}</h3>
+<div class="catPageTiles">
+	{{~it.categoryTiles : categoryTile : index}}
+	<!--Tile {{=categoryTile.title}} {{=index}} Start-->
+		<div class="catTile subcategory-tile-menu {{? categoryTile.hasSubtile}} expandTile {{?}}" id="{{=categoryTile.btnId}}" {{? categoryTile.hasSubtile}} selenium="expandTile" {{?}}>{{? !categoryTile.hasSubtile}}<a href="{{=categoryTile.url}}" selenium="checkLink" title="{{=categoryTile.title}}">{{?}}
+			<img src="{{=categoryTile.imageUrl}}" alt="{{=categoryTile.title}}">
+			<p class="txtLink">{{=categoryTile.title}}</p>
+			<div class="btnLinkWrapper">
+				<p class="btnLink">SHOP NOW
+				{{? categoryTile.hasSubtile}}
+				<span class="btnLinkIndicator" style="background: url(http://www.appliancesonline.com.au/images/opt/washing-v2/images/up.png) 0px 11px no-repeat;"></span>
+				{{?}}
+				 <!-- Tile {{=categoryTile.title}} End -->
+				</p>
+			</div>
+		{{? !categoryTile.hasSubtile}}</a>{{?}}
+		</div>
+
+		<!-- Generate tile expanders if in row -->
+			{{? (index+1) % 3 == 0}}
+			<h3> Divisible by 3 </h3>
+			{{~[1,2,3] : c}}
+			<h3>{{=c}}</h3>
+			{{~}}
+			{{?}}
+		<!-- Generate expanders End -->
+	{{~}}
+	<div class="catTile placeHolder" style="width:{{=(3-(it.numberOfCategoryTiles%3))*33.33}}%"></div>
+	{{~it.categoryTiles : categoryTile}}
+		{{? categoryTile.hasSubtile}}
+			<div class="submenu-expand" id="{{=categoryTile.subTile.id}}" style="display:none; width: 100%;"><span class="indicator"></span>
+				<div class="catTile subTile shopAllTile">
+					<a selenium="checkLink" href="{{=categoryTile.subTile.shopAllUrl}}" title="Shop All {{=categoryTile.title}}">
+						<img src="{{=categoryTile.subTile.shopAllImageUrl}}">
+						<p class="txtLink">All {{=categoryTile.title}}</p>
+						<div class="btnLinkWrapper">
+							<p class="btnLink">SHOP ALL</p>
+						</div>
+					</a>
+				</div>
+				<div class="catTile subTile popularFilterTile"><p class="txtLink">{{=categoryTile.subTile.popularFilterTitle}}</p>
+					<img src="{{=categoryTile.subTile.popularFilterImageUrl}}" class="subImg" alt="{{=categoryTile.subTile.popularFilterTitle}}">
+					<div class="btnLinkWrapper desktopLinks">
+						{{~categoryTile.subTile.popularFilterOptions : popularFilterOption}}
+							<a selenium="checkLink" class="btnLink" href="{{=popularFilterOption[1]}}" title="{{=categoryTile.subTile.popularFilterTitle}} {{=popularFilterOption[0]}}">{{=popularFilterOption[0]}}</a>
+						{{~}}
+					</div>
+					<div class="btnLinkWrapper mobLinks">
+					{{~categoryTile.subTile.popularFilterOptions : popularFilterOption}}
+						<a selenium="checkLink" class="btnLink" href="{{=popularFilterOption[1]}}" title="{{=categoryTile.subTile.popularFilterTitle}} {{=popularFilterOption[0]}}">{{=popularFilterOption[0]}}</a>
+					 {{~}}</div>
+				</div>
+				<div class="catTile subTile brandTile">
+						<p class="txtLink">Shop by Brand</p>
+						<div class="btnLinkWrapper desktopLinks">
+							{{~categoryTile.subTile.popularBrands : popularBrand}}
+								<a selenium="checkLink" class="btnLink" href="{{=popularBrand.url}}" title="{{=popularBrand.name}}">
+									<img src="{{=popularBrand.imageUrl}}" alt="{{=popularBrand.name}}">
+								</a>
+							{{~}}
+						</div>
+						<div class="btnLinkWrapper mobLinks">
+							{{~categoryTile.subTile.popularBrands : popularBrand}}
+								<a selenium="checkLink" class="btnLink" href="{{=popularBrand.url}}" title="{{=popularBrand.name}}">
+									<img src="{{=popularBrand.imageUrl}}" alt="{{=popularBrand.name}}">
+								</a>
+							{{~}}
+						</div>						
+				</div>
+			</div>
+			<div class="clear"></div>
+		{{?}}
+	{{~}}
+</div>

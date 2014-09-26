@@ -1,0 +1,15 @@
+todo.txt
+
+
+insert expanders every three tiles
+
+popular categories need to be implemented
+
+show all tile image and url needs to be in form
+
+change template to be imported rather than inline
+
+
+
+
+format the page properly
