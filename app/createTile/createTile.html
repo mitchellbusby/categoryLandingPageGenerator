@@ -4,7 +4,7 @@
 		<input type="text" class="form-control" name="pageTitle" ng-model="pageTitle">
 	</div>
 	<div ng-repeat="tile in tiles" style="border: 1px solid #C7C7C7; border-radius: 5px; padding: 20px; margin: 10px;">
-		<h4>Tile {{$index+1}} <button class="btn btn-default" ng-click="removeTile(tile)">Remove this tile</button></h4>
+		<h4>Tile {{$index+1}} <button class="btn btn-default" type="button" ng-click="removeTile(tile)">Remove this tile</button></h4>
 		<div class="form-group">
 			<label for="nameOfTile">Name of tile</label>
 			<input type="text" name="nameOfTile" class="form-control" id="nameOfTile" ng-model="tile.title">
