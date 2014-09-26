@@ -2,7 +2,7 @@
 <div class="catPageTiles">
 	{{~it.categoryTiles : categoryTile : index}}
 	<!--Tile {{=categoryTile.title}} {{=index}} Start-->
-		<div class="catTile subcategory-tile-menu {{? categoryTile.hasSubtile}} expandTile {{?}}" id="{{=categoryTile.btnId}}" {{? categoryTile.hasSubtile}} selenium="expandTile" {{?}}>{{? !categoryTile.hasSubtile}}<a href="{{=categoryTile.url}}" selenium="checkLink" title="{{=categoryTile.title}}">{{?}}
+		<div class="catTile subcategory-tile-menu {{? categoryTile.hasSubtile}} {{=it.reservedClasses.expandTile}} {{?}}" id="{{=categoryTile.btnId}}" {{? categoryTile.hasSubtile}} selenium="expandTile" {{?}}>{{? !categoryTile.hasSubtile}}<a href="{{=categoryTile.url}}" selenium="checkLink" title="{{=categoryTile.title}}">{{?}}
 			<img src="{{=categoryTile.imageUrl}}" alt="{{=categoryTile.title}}">
 			<p class="txtLink">{{=categoryTile.title}}</p>
 			<div class="btnLinkWrapper">
@@ -15,52 +15,104 @@
 			</div>
 		{{? !categoryTile.hasSubtile}}</a>{{?}}
 		</div>
-
 		<!-- Generate tile expanders if in row -->
 			{{? (index+1) % 3 == 0}}
-			<h3> Divisible by 3 </h3>
 			{{~[1,2,3] : c}}
-			<h3>{{=c}}</h3>
+				<!-- for tile in the row, check if tile has a subtile -->
+				{{? it.categoryTiles[(index+1)-c].hasSubtile}}
+					<div class="submenu-expand" id="{{=it.categoryTiles[(index+1)-c].subTile.id}}" style="display:none; width: 100%;"><span class="indicator"></span>
+						<div class="catTile subTile shopAllTile">
+							<a selenium="checkLink" href="{{=it.categoryTiles[(index+1)-c].subTile.shopAllUrl}}" title="Shop All {{=it.categoryTiles[(index+1)-c].title}}">
+								<img src="{{=it.categoryTiles[(index+1)-c].subTile.shopAllImageUrl}}">
+								<p class="txtLink">All&nbsp;{{=it.categoryTiles[(index+1)-c].title}}</p>
+								<div class="btnLinkWrapper">
+									<p class="btnLink">SHOP ALL</p>
+								</div>
+							</a>
+						</div>
+						<div class="catTile subTile popularFilterTile"><p class="txtLink">{{=it.categoryTiles[(index+1)-c].subTile.popularFilterTitle}}</p>
+							<img src="{{=it.categoryTiles[(index+1)-c].subTile.popularFilterImageUrl}}" class="subImg" alt="{{=it.categoryTiles[(index+1)-c].subTile.popularFilterTitle}}">
+							<div class="btnLinkWrapper desktopLinks">
+								{{~it.categoryTiles[(index+1)-c].subTile.popularFilterOptions : popularFilterOption}}
+									<a selenium="checkLink" class="btnLink" href="{{=popularFilterOption[1]}}" title="{{=it.categoryTiles[(index+1)-c].subTile.popularFilterTitle}} {{=popularFilterOption[0]}}">{{=popularFilterOption[0]}}</a>
+								{{~}}
+							</div>
+							<div class="btnLinkWrapper mobLinks">
+							{{~it.categoryTiles[(index+1)-c].subTile.popularFilterOptions : popularFilterOption}}
+								<a selenium="checkLink" class="btnLink" href="{{=popularFilterOption[1]}}" title="{{=it.categoryTiles[(index+1)-c].subTile.popularFilterTitle}} {{=popularFilterOption[0]}}">{{=popularFilterOption[0]}}</a>
+							 {{~}}</div>
+						</div>
+						<div class="catTile subTile brandTile">
+								<p class="txtLink">Shop by Brand</p>
+								<div class="btnLinkWrapper desktopLinks">
+									{{~it.categoryTiles[(index+1)-c].subTile.popularBrands : popularBrand}}
+										<a selenium="checkLink" class="btnLink" href="{{=popularBrand.url}}" title="{{=popularBrand.name}}">
+											<img src="{{=popularBrand.imageUrl}}" alt="{{=popularBrand.name}}">
+										</a>
+									{{~}}
+								</div>
+								<div class="btnLinkWrapper mobLinks">
+									{{~it.categoryTiles[(index+1)-c].subTile.popularBrands : popularBrand}}
+										<a selenium="checkLink" class="btnLink" href="{{=popularBrand.url}}" title="{{=popularBrand.name}}">
+											<img src="{{=popularBrand.imageUrl}}" alt="{{=popularBrand.name}}">
+										</a>
+									{{~}}
+								</div>						
+						</div>
+					</div>
+				{{?}}
+				<!-- endfor -->
 			{{~}}
+			<div class="clear"></div>
 			{{?}}
 		<!-- Generate expanders End -->
 	{{~}}
 	<div class="catTile placeHolder" style="width:{{=(3-(it.numberOfCategoryTiles%3))*33.33}}%"></div>
-	{{~it.categoryTiles : categoryTile}}
-		{{? categoryTile.hasSubtile}}
-			<div class="submenu-expand" id="{{=categoryTile.subTile.id}}" style="display:none; width: 100%;"><span class="indicator"></span>
+	<!-- Generate final row of expanders -->
+	{{? it.numberOfCategoryTiles % 3 == 1 }}
+	<div style="display: none;">
+		{{=it.lastRowIndex = [1]}}
+	</div>
+	{{?? it.numberOfCategoryTiles % 3 == 2}}
+	<div style="display: none;">
+		{{=it.lastRowIndex = [1,2]}}
+	</div>
+	{{?}}
+	{{~ it.lastRowIndex : c}}
+		{{? it.categoryTiles[(it.numberOfCategoryTiles-c)].hasSubtile}}
+			<div class="submenu-expand" id="{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.id}}" style="display:none; width: 100%;"><span class="indicator"></span>
 				<div class="catTile subTile shopAllTile">
-					<a selenium="checkLink" href="{{=categoryTile.subTile.shopAllUrl}}" title="Shop All {{=categoryTile.title}}">
-						<img src="{{=categoryTile.subTile.shopAllImageUrl}}">
-						<p class="txtLink">All {{=categoryTile.title}}</p>
+					<a selenium="checkLink" href="{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.shopAllUrl}}" title="Shop All {{=it.categoryTiles[(it.numberOfCategoryTiles-c)].title}}">
+						<img src="{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.shopAllImageUrl}}">
+						<p class="txtLink">All&nbsp;{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].title}}</p>
 						<div class="btnLinkWrapper">
 							<p class="btnLink">SHOP ALL</p>
 						</div>
 					</a>
 				</div>
-				<div class="catTile subTile popularFilterTile"><p class="txtLink">{{=categoryTile.subTile.popularFilterTitle}}</p>
-					<img src="{{=categoryTile.subTile.popularFilterImageUrl}}" class="subImg" alt="{{=categoryTile.subTile.popularFilterTitle}}">
+				<div class="catTile subTile popularFilterTile"><p class="txtLink">{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularFilterTitle}}</p>
+					<img src="{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularFilterImageUrl}}" class="subImg" alt="{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularFilterTitle}}">
 					<div class="btnLinkWrapper desktopLinks">
-						{{~categoryTile.subTile.popularFilterOptions : popularFilterOption}}
-							<a selenium="checkLink" class="btnLink" href="{{=popularFilterOption[1]}}" title="{{=categoryTile.subTile.popularFilterTitle}} {{=popularFilterOption[0]}}">{{=popularFilterOption[0]}}</a>
+						{{~it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularFilterOptions : popularFilterOption}}
+							<a selenium="checkLink" class="btnLink" href="{{=popularFilterOption[1]}}" title="{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularFilterTitle}} {{=popularFilterOption[0]}}">{{=popularFilterOption[0]}}</a>
 						{{~}}
 					</div>
 					<div class="btnLinkWrapper mobLinks">
-					{{~categoryTile.subTile.popularFilterOptions : popularFilterOption}}
-						<a selenium="checkLink" class="btnLink" href="{{=popularFilterOption[1]}}" title="{{=categoryTile.subTile.popularFilterTitle}} {{=popularFilterOption[0]}}">{{=popularFilterOption[0]}}</a>
+					{{~it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularFilterOptions : popularFilterOption}}
+						<a selenium="checkLink" class="btnLink" href="{{=popularFilterOption[1]}}" title="{{=it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularFilterTitle}} {{=popularFilterOption[0]}}">{{=popularFilterOption[0]}}</a>
 					 {{~}}</div>
 				</div>
 				<div class="catTile subTile brandTile">
 						<p class="txtLink">Shop by Brand</p>
 						<div class="btnLinkWrapper desktopLinks">
-							{{~categoryTile.subTile.popularBrands : popularBrand}}
+							{{~it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularBrands : popularBrand}}
 								<a selenium="checkLink" class="btnLink" href="{{=popularBrand.url}}" title="{{=popularBrand.name}}">
 									<img src="{{=popularBrand.imageUrl}}" alt="{{=popularBrand.name}}">
 								</a>
 							{{~}}
 						</div>
 						<div class="btnLinkWrapper mobLinks">
-							{{~categoryTile.subTile.popularBrands : popularBrand}}
+							{{~it.categoryTiles[(it.numberOfCategoryTiles-c)].subTile.popularBrands : popularBrand}}
 								<a selenium="checkLink" class="btnLink" href="{{=popularBrand.url}}" title="{{=popularBrand.name}}">
 									<img src="{{=popularBrand.imageUrl}}" alt="{{=popularBrand.name}}">
 								</a>
@@ -68,7 +120,7 @@
 						</div>						
 				</div>
 			</div>
-			<div class="clear"></div>
 		{{?}}
 	{{~}}
+	<!-- End generate final row of expanders -->
 </div>

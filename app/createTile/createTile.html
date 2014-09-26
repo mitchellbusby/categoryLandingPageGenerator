@@ -3,7 +3,8 @@
 		<label for="pageTitle">Category page title</label>
 		<input type="text" class="form-control" name="pageTitle" ng-model="pageTitle">
 	</div>
-	<div ng-repeat="tile in tiles">
+	<div ng-repeat="tile in tiles" style="border: 1px solid #C7C7C7; border-radius: 5px; padding: 20px; margin: 10px;">
+		<h4>Tile {{$index+1}} <button class="btn btn-default" ng-click="removeTile(tile)">Remove this tile</button></h4>
 		<div class="form-group">
 			<label for="nameOfTile">Name of tile</label>
 			<input type="text" name="nameOfTile" class="form-control" id="nameOfTile" ng-model="tile.title">
@@ -17,9 +18,20 @@
 			<input type="text" name="url" class="form-control" id="url" ng-model="tile.url"  ng-disabled="tile.hasSubtile">
 		</div>
 		<div class="input-group" style="margin: 20px 0 20px 0;"><span class="input-group-addon"><input type="checkbox" ng-model="tile.hasSubtile"></span><label for="tileHasSubtile" class="form-control" style="width:40%;">Has subtile</label></div>
-		<div class="container subtile-options-container" ng-show="tile.hasSubtile">
-			<h4>Popular Filter Tile <button class="btn btn-default" ng-click="showPopFilter = !showPopFilter">{{showPopFilter ? "Hide" : "Show"}}</button></h4>
-			<div class="container" ng-show="showPopFilter">
+		<div class="subtile-options-container" ng-show="tile.hasSubtile">
+			<h5>Shop All Tile <button class="btn btn-default" ng-click="showShopAll = !showShopAll">{{showShopAll ? "Hide" : "Show"}}</button></h5>
+			<div ng-show="showShopAll">
+				<div class="form-group col-sm-6">
+					<label for="shopAllUrl">URL for Shop All filter</label>
+					<input type="text" name="shopAllUrl" class="form-control" ng-model="tile.subTile.shopAllUrl">
+				</div>
+				<div class="form-group col-sm-6">
+					<label for="shopAllImageUrl">Image URL for Shop All filter</label>
+					<input type="text" name="shopAllImageUrl" class="form-control" ng-model="tile.subTile.shopAllImageUrl">
+				</div>
+			</div>
+			<h5>Popular Filter Tile <button class="btn btn-default" ng-click="showPopFilter = !showPopFilter">{{showPopFilter ? "Hide" : "Show"}}</button></h5>
+			<div ng-show="showPopFilter">
 				<div class="row">
 					<div class="form-group col-sm-6">
 						<label for="popularFilterTitle">Popular filter title</label>
@@ -41,8 +53,8 @@
 					</div>
 				</div>
 			</div>
-			<h4>Popular Brands Tile <button class="btn btn-default" ng-click="showPopBrands = !showPopBrands">{{showPopBrands ? "Hide" : "Show"}}</button></h4>
-			<div class="container" ng-show="showPopBrands">
+			<h5>Popular Brands Tile <button class="btn btn-default" ng-click="showPopBrands = !showPopBrands">{{showPopBrands ? "Hide" : "Show"}}</button></h5>
+			<div ng-show="showPopBrands">
 				<div class="row" ng-repeat="popularBrand in tile.subTile.popularBrands">
 					<div class="form-group col-sm-4">
 						<label for="brandName">Brand Name {{"for " + popularBrand.name}}</label>
@@ -59,7 +71,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group"><button class="btn btn-default" ng-click="removeTile(tile)">Remove this tile</button></div>
+
 	</div>
 	<div class="form-group">
 		<button class="btn btn-default" ng-click="addTile()">Add a subcategory tile</button>
