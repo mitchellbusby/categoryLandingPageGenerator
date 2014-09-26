@@ -1,0 +1,13 @@
+.more-margin-top{
+    margin-top: 50px;
+}
+.give-border{
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+#question2{
+    display: none;
+}
+.hide-please{
+    display:none;
+}
